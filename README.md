@@ -1,1 +1,2 @@
 # Text_Classification
+本项目包含TextCNN、CNN-LSTM和bert方法进行中文文本分类
