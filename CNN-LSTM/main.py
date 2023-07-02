@@ -61,7 +61,6 @@ def getData(file='./data/toutiao_cat_data.txt',):
         all_labels.append(label)
     return all_words,all_labels
 
-
 ## 读取测数据集
 data,label = getData()
 
@@ -111,44 +110,37 @@ layer = Dense(num_classes, activation='softmax')(layer)
 model = Model(inputs=inputs,outputs=layer)
 model.summary()
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-# # #模型训练
-#
-# model.fit(train_seq_mat,train_y,batch_size=128,epochs=10,
-#                       validation_data=(val_seq_mat,val_y),
-#                       callbacks=[EarlyStopping(monitor='val_loss',min_delta=0.0001),TensorBoard(log_dir='./log')]
-#                         ## 当val-loss不再降低时停止训练
-#                      )
-# # # 保存模型
-# model.save('model/CNN-LSTM.h5')
-# del model
-#
-# # del model
-#
-#
-# ## 对验证集进行预测
-#
-#
-# # 导入已经训练好的模型
-# model = load_model('model/CNN-LSTM.h5')
-#
-# test_pre = model.predict(test_seq_mat)
-# # print(test_pre)
-# pred = np.argmax(test_pre,axis=1)
-# real = np.argmax(test_y,axis=1)
-# cv_conf = confusion_matrix(real, pred)
-# acc = accuracy_score(real, pred)
-# precision = precision_score(real, pred, average='micro')
-# recall = recall_score(real, pred, average='micro')
-# f1 = f1_score(real, pred, average='micro')
-# patten = 'test:  acc: %.4f   precision: %.4f   recall: %.4f   f1: %.4f'
-# print(patten % (acc,precision,recall,f1,))
-# labels11 = ['story','culture','entertainment','sports','finance',
-#                     'house','car','edu','tech','military',
-#                     'travel','world','stock','agriculture','game']
-# fig, ax = plt.subplots(figsize=(15,15))
-# disp = ConfusionMatrixDisplay(confusion_matrix=cv_conf, display_labels=labels11)
-# disp.plot(cmap="Blues", values_format='',ax=ax)
-# plt.savefig("ConfusionMatrix.tif", dpi=400)
+# #模型训练
+
+model.fit(train_seq_mat,train_y,batch_size=128,epochs=10,
+                      validation_data=(val_seq_mat,val_y),
+                      callbacks=[EarlyStopping(monitor='val_loss',min_delta=0.0001),TensorBoard(log_dir='./log')]
+                        ## 当val-loss不再降低时停止训练
+                     )
+# # 保存模型
+model.save('model/CNN-LSTM.h5')
+del model
+
+## 对验证集进行预测
+# 导入已经训练好的模型
+model = load_model('model/CNN-LSTM.h5')
+test_pre = model.predict(test_seq_mat)
+pred = np.argmax(test_pre,axis=1)
+real = np.argmax(test_y,axis=1)
+cv_conf = confusion_matrix(real, pred)
+acc = accuracy_score(real, pred)
+precision = precision_score(real, pred, average='micro')
+recall = recall_score(real, pred, average='micro')
+f1 = f1_score(real, pred, average='micro')
+patten = 'test:  acc: %.4f   precision: %.4f   recall: %.4f   f1: %.4f'
+print(patten % (acc,precision,recall,f1,))
+labels11 = ['story','culture','entertainment','sports','finance',
+                    'house','car','edu','tech','military',
+                    'travel','world','stock','agriculture','game']
+fig, ax = plt.subplots(figsize=(15,15))
+disp = ConfusionMatrixDisplay(confusion_matrix=cv_conf, display_labels=labels11)
+disp.plot(cmap="Blues", values_format='',ax=ax)
+plt.savefig("ConfusionMatrix.tif", dpi=400)
 
 def dataParse_(content, stop_words):
     content = reserve_chinese(content)
@@ -220,9 +212,5 @@ def main_windows():
         else:
             pass
 
-
 if __name__ == "__main__":
-    # pass
-    #
-    #
     main_windows()
