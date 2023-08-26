@@ -347,7 +347,7 @@ class Trainer():
 
 
 if __name__ == "__main__":
-    # getFormatData() # 数据预处理：数据清洗和词向量
+    getFormatData() # 数据预处理：数据清洗和词向量
     trainer=Trainer()
     trainer.train(epochs=30) #数据训练
     trainer.test()  # 测试
